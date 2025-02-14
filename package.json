@@ -1,0 +1,17 @@
+{
+  "name": "lektion8",
+  "version": "1.0.0",
+  "description": "--- author: Lektion 8 date: MMMM dd, YYYY paging: \"%d / %d\" ---",
+  "scripts": {
+    "test": "jest"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.26.9",
+    "@babel/preset-env": "^7.26.9",
+    "babel-jest": "^29.7.0",
+    "jest": "^29.7.0",
+    "jest-environment-jsdom": "^29.7.0",
+    "jest-fixed-jsdom": "^0.0.9",
+    "jsdom": "^26.0.0"
+  }
+}

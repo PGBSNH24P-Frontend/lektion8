@@ -162,7 +162,7 @@ Det är alltid nödvändigt att köra testet igen efter en refactor.
 
 # Begrepp och termer
 
-## Lifeycles
+## Lifecycles
 
 Funktioner som körs innan, under, mellan och efter tester. Exempel:
 
