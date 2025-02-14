@@ -5,9 +5,13 @@ import { JSDOM } from 'jsdom'
 // Läser in allt kodinnehåll från index.html till denna variabel, som en sträng
 const html = fs.readFileSync(path.resolve(__dirname, './index.html'), 'utf8');
 
+// Lagrar DOM objektet som skapas före varje test
 let dom;
+// Genväg till dom.window.document.body
 let body;
 
+// Tar bort alla imports och exports från en sträng med kod
+// Denna funktion behöver inte förstås - kopiera den vid behov.
 function removeImports(code) {
     if (typeof code !== 'string') {
         throw new TypeError('Input must be a string');
@@ -43,18 +47,24 @@ function removeImports(code) {
     return cleanedCode;
 }
 
+// Ladda in skript manuellt på grund av problem med Jest och jsdom.
 function loadScripts(names) {
     for (let scriptName of names) {
         const scriptContent = fs.readFileSync(path.resolve(__dirname, scriptName), 'utf8');
         const script = dom.window.document.createElement('script');
+        // Lägg in kodinnehållet men ta bort alla imports och exports
+        // eftersom endast moduler kan ha dem.
         script.textContent = removeImports(scriptContent)
         dom.window.document.body.appendChild(script);
     }
 }
 
+// Gruppera tester
 describe('index.html', () => {
+    // Ladda in HTML för varje test
     beforeEach(async () => {
         dom = new JSDOM(html, {
+            // Kör alla skript som finns i HTMLen
             runScripts: 'dangerously',
             resources: "usable",
             pretendToBeVisual: true,
@@ -78,7 +88,9 @@ describe('index.html', () => {
         body = dom.window.document.body;
     });
 
+    // Definiera ett test med 'it'
     it('renders a heading element', () => {
+        // Assert något, som att det finns en titel på sidan
         expect(body.querySelector('h1')).not.toBeNull()
     })
 
@@ -92,6 +104,8 @@ describe('index.html', () => {
     })
 
     it('renders two todos', () => {
+        // Ladda in skript per test
+        // VIKTIGT: ladda in i rätt ordning
         loadScripts([
             "./js/todo.js",
             "./js/main.js"
